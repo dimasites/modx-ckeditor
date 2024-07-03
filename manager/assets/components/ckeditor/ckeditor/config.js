@@ -19,4 +19,8 @@ CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
+    config.autoGrow_minHeight = 100;
+    config.autoGrow_maxHeight = 600;
+    config.autoGrow_bottomSpace = 50;
+    config.autoGrow_onStartup = true;
 };

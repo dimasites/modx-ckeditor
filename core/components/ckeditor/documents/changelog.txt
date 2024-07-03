@@ -1,5 +1,11 @@
 Changelog for CKEditor integration into MODx Revolution.
 
+CKEditor 1.4.6 (2024.07.03)
+====================================
+- Fix small (as expected) editor frame height in some cases via default autogrow plugin settings
+- Removed Flash plugin, because .swf format is outdated
+- Added html5video plugin. Now we can paste .mp4 videos via editor!
+
 CKEditor 1.4.5 (2023.04.22)
 ====================================
 - Added interactive resource selector with search by pagetitle or id in paste link dialog. It paste [[~id]] modx tag as link src

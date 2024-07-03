@@ -50,7 +50,7 @@ $settings['extra_plugins']= $modx->newObject('modSystemSetting');
 $settings['extra_plugins']->fromArray(array(
         'key' => 'ckeditor.extra_plugins',
         'xtype' => 'textfield',
-        'value' => '',
+        'value' => 'html5video',
         'namespace' => PKG_NAME_LOWER,
         'area' => 'general'
     ),'',true,true);
@@ -104,7 +104,7 @@ $settings['remove_plugins']= $modx->newObject('modSystemSetting');
 $settings['remove_plugins']->fromArray(array(
         'key' => 'ckeditor.remove_plugins',
         'xtype' => 'textfield',
-        'value' => 'forms,smiley,autogrow,liststyle,justify,pagebreak,colorbutton,indentblock,font,newpage,print,save,language,bidi,selectall,preview',
+        'value' => 'forms,smiley,liststyle,justify,pagebreak,colorbutton,indentblock,font,newpage,print,save,language,bidi,selectall,preview,flash',
         'namespace' => PKG_NAME_LOWER,
         'area' => 'general'
     ),'',true,true);
