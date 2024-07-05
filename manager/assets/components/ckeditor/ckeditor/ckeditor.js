@@ -12124,8 +12124,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
             c.setKeystroke([[CKEDITOR.CTRL + 66, "bold"], [CKEDITOR.CTRL + 73, "italic"], [CKEDITOR.CTRL + 85, "underline"]])
         }
     });
-    CKEDITOR.config.coreStyles_bold = {element: "strong", overrides: "b"};
-    CKEDITOR.config.coreStyles_italic = {element: "em", overrides: "i"};
+    CKEDITOR.config.coreStyles_bold = {element: "b", overrides: "strong"};
+    CKEDITOR.config.coreStyles_italic = {element: "i", overrides: "em"};
     CKEDITOR.config.coreStyles_underline = {element: "u"};
     CKEDITOR.config.coreStyles_strike = {element: "s", overrides: "strike"};
     CKEDITOR.config.coreStyles_subscript = {element: "sub"};
@@ -17070,7 +17070,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
                 editables: {
                     caption: {
                         selector: "figcaption",
-                        allowedContent: "br em strong sub sup u s; a[!href,target]"
+                        allowedContent: "br i b sub sup u s; a[!href,target]"
                     }
                 },
                 parts: {image: "img", caption: "figcaption"},
