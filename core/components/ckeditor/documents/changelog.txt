@@ -1,5 +1,11 @@
 Changelog for CKEditor integration into MODx Revolution.
 
+CKEditor 1.4.7 (draft)
+====================================
+- Old HTML elements replaced to actual by default in new (and only new) pasted or typed content.
+- - <strong> replaced to <b> tag (thanks @dimasites)
+- - <em> replaced to <i> tag
+
 CKEditor 1.4.6 (2024.07.03)
 ====================================
 - Fix small (as expected) editor frame height in some cases via default autogrow plugin settings
