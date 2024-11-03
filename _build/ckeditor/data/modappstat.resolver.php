@@ -1,43 +1,64 @@
 <?php
 
 /**
- * modAppStat Resolver v2.0
+ * modAppStat Resolver v2.1
+ *
+ * @var array $options
+ * @var array $transport
  */
 
 $package = $options['namespace'];
 $url     = 'https://communitystat.modapps.pro/api/v1/';
-$params  = array();
+$params  = [];
 
 $modx =& $object->xpdo;
-$c = $modx->newQuery('transport.modTransportPackage');
-$c->where(
-    array(
-        'workspace' => 1,
-        "(SELECT
-            `signature`
-            FROM {$modx->getTableName('modTransportPackage')} AS `latestPackage`
-            WHERE `latestPackage`.`package_name` = `modTransportPackage`.`package_name`
-            ORDER BY
-                `latestPackage`.`version_major` DESC,
-                `latestPackage`.`version_minor` DESC,
-                `latestPackage`.`version_patch` DESC,
-                IF(`release` = '' OR `release` = 'ga' OR `release` = 'pl','z',`release`) DESC,
-                `latestPackage`.`release_index` DESC
-                LIMIT 1,1) = `modTransportPackage`.`signature`",
-    )
-);
-$c->where(
-    array(
-        array(
+//$modx =& $transport->xpdo;
+
+//MODX3 adaptation start
+$modx_version = $modx->getVersionData();
+$modx3 = false;
+if ($modx_version['version'] == 3) {
+    $modx3 = true;
+}
+
+$classes = [
+    'modSystemSetting'=>'modSystemSetting',
+    'transport.modTransportPackage'=>'transport.modTransportPackage',
+];
+
+if ($modx3) {
+    $classes = [
+        'modSystemSetting'=>'\MODX\Revolution\modSystemSetting',
+        'transport.modTransportPackage'=>'\MODX\Revolution\Transport\modTransportPackage',
+    ];
+}
+//MODX3 adaptation end
+
+$c = $modx->newQuery($classes['transport.modTransportPackage']);
+$c->where([
+    'workspace' => 1,
+    "(SELECT
+        `signature`
+        FROM {$modx->getTableName($classes['transport.modTransportPackage'])} AS `latestPackage`
+        WHERE `latestPackage`.`package_name` = `modTransportPackage`.`package_name`
+        ORDER BY
+            `latestPackage`.`version_major` DESC,
+            `latestPackage`.`version_minor` DESC,
+            `latestPackage`.`version_patch` DESC,
+            IF(`release` = '' OR `release` = 'ga' OR `release` = 'pl','z',`release`) DESC,
+            `latestPackage`.`release_index` DESC
+            LIMIT 1,1) = `modTransportPackage`.`signature`",
+]);
+$c->where([
+        [
             'modTransportPackage.package_name' => strtolower($package)
-        ),
+        ],
         'installed:IS NOT' => null
-    )
-);
+]);
 $c->limit(1);
 
 /** @var modTransportPackage $oldPackage */
-$oldPackage = $modx->getObject('transport.modTransportPackage', $c);
+$oldPackage = $modx->getObject($classes['transport.modTransportPackage'], $c);
 
 $oldVersion = '';
 if ($oldPackage) {
@@ -54,7 +75,7 @@ if ($options['topic']) {
     $version   = str_replace(strtolower($package) . '-', '', $signature);
 }
 
-$modxVersionObj = $modx->getObject('modSystemSetting', array('key' => 'settings_version'));
+$modxVersionObj = $modx->getObject($classes['modSystemSetting'], ['key' => 'settings_version']);
 $modxVersion    = ($modxVersionObj) ? $modxVersionObj->get('value') : '';
 $managerLang    = $modx->getOption('manager_language');
 
@@ -77,7 +98,7 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         break;
 }
 
-$params = array(
+$params = [
     'name'                 => $options['namespace'],
     'url'                  => $_SERVER['SERVER_NAME'],
     'php_version'          => phpversion(),
@@ -87,14 +108,14 @@ $params = array(
     'package_version_from' => $oldVersion,
     'package_version'      => $version,
     'date'                 => time()
-);
+];
 
 /**
  * Curl POST.
  */
 $curl = curl_init();
 curl_setopt($curl, CURLOPT_URL, $url);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: MODX-RSCHARDCODEDPASS'));
+curl_setopt($curl, CURLOPT_HTTPHEADER, ['Authorization: MODX-RSCHARDCODEDPASS']);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 120);
 curl_setopt($curl, CURLOPT_POST, true);
