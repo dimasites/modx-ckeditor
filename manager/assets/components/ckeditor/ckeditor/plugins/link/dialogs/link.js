@@ -140,7 +140,7 @@ let link_div,
 									a.url.url = a.url.url.replace(/\[\[~|\]\]/gi, '')
 									if (f['0'] == '[[~') {
 										_act = false
-									} 
+									}
 
 								} else {
 									a.url && this.setValue(a.url.protocol || "")
@@ -221,7 +221,7 @@ let link_div,
 						setup: function() {
 							this.getDialog().getContentElement("info", "linkType") || this.getElement().show()
 						}
-					}, 
+					},
 					{
 						type: "vbox",
 						id: "find_res_line",
@@ -229,12 +229,18 @@ let link_div,
 						],
 						setup: function(a) {
 							if (link_div != null) {
-								link_div.destroy()
-								
+								link_div.destroy();
 							}
-							let _parent = document.getElementById(this.domId)
-							_parent.classList.add('res-list')
+
+							let _parent = document.getElementById(this.domId);
+							_parent.classList.add('res-list');
 							link_input.render = this.domId;
+
+                            let editorSearchProcessor = 'ckeditor/resource/editorsearch';//for MODX2
+                            if (MODx.config.version.startsWith('3.')){
+                                editorSearchProcessor = 'Resource/GetList';
+                            }
+
 							Ext.onReady(
 								function() {
 
@@ -253,14 +259,16 @@ let link_div,
 											,layout: 'anchor'
 											,listEmptyText: ''
 											,width: '100%'
+                                            //TODO size attr change from 24 to 65 or add style width:100% for best UX and fix crop long pagetitle in search input
 											,allowBlank : false
 											,typeAhead: true
 											,editable: true
 											,minChars: 0
 											,baseParams: {
-												action: 'ckeditor/resource/editorsearch',
+												action: editorSearchProcessor,
 												parent: config.parent,
 												type: 'list',
+                                                //limit: 0,
 											}
 											,mode: 'remote'
 											,displayField: 'pagetitle'
@@ -296,7 +304,7 @@ let link_div,
 									};
 									Ext.extend(MODx.ux.CKEditor.FindRes, MODx.combo.ComboBox);
 									Ext.reg('doodle-combo-res', MODx.ux.CKEditor.FindRes);
-									
+
 									link_div = MODx.load({ xtype: "doodle-combo-res"});
 									link_div.show();
 								}
@@ -328,7 +336,7 @@ let link_div,
 							label: g.browseServer
 						}
 						],
-					},		
+					},
 					]
 				}, {
 					type: "vbox",
@@ -821,7 +829,7 @@ let link_div,
 						if (a.url.protocol == '[[~') {
 							g.set.href = g.set.href +']]';
 							g.set['data-cke-saved-href'] = g.set['data-cke-saved-href'] +']]';
-						}						
+						}
 						h.setAttributes(g.set);
 						h.removeAttributes(g.removed);
 						if (a.linkText && q != a.linkText) e = a.linkText;

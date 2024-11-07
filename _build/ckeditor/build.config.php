@@ -4,8 +4,10 @@ define('PKG_NAME','CKEditor');
 define('PKG_NAME_LOWER', strtolower(PKG_NAME));
 
 define('PKG_NAMESPACE','ckeditor');
-define('PKG_VERSION','1.4.6');
-define('PKG_RELEASE','pl');
+define('PKG_VERSION','1.4.7');
+//TODO remove system settings when package removed or ask user for full replace
+//TODO check b and em tag replacement!
+define('PKG_RELEASE','dev16');
 if (isset($_SERVER['MODX_BASE_PATH'])) {
     define('MODX_BASE_PATH', $_SERVER['MODX_BASE_PATH']);
 } elseif (file_exists(dirname(__FILE__ ,3) . '/core')) {

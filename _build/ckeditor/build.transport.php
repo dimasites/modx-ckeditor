@@ -15,8 +15,9 @@ $root = dirname(__FILE__,3).'/';
 $sources = array(
     'root' => $root,
     'build' => $root . '_build/'. PKG_NAME_LOWER .'/',
-    'data' => $root . '_build/'. PKG_NAME_LOWER .'/data/',
-    'processors' => $root . 'core/model/modx/processors/resource/',
+    'data' => $root . '_build/'. PKG_NAME_LOWER .'/data/other/',
+    'resolvers' => $root . '_build/'. PKG_NAME_LOWER .'/data/resolvers/',
+    'processors' => $root . '_build/'. PKG_NAME_LOWER .'/data/processors/resource/',//last folder from here will be created in file structure, cant target to root ./processors/ dir. TODO find reason and fix it.
     'lexicon' => $root . 'core/components/'.PKG_NAMESPACE.'/lexicon/',
     'documents' => $root.'core/components/'.PKG_NAMESPACE.'/documents/',
     'elements' => $root.'core/components/'.PKG_NAMESPACE.'/elements/',
@@ -32,6 +33,12 @@ $modx= new modX();
 $modx->initialize('mgr');
 $modx->setLogLevel(modX::LOG_LEVEL_INFO);
 $modx->setLogTarget(XPDO_CLI_MODE ? 'ECHO' : 'HTML'); flush();
+
+$modx_version = $modx->getVersionData();
+$modx3 = false;
+if ($modx_version['version'] == 3) {
+    $modx3 = true;
+}
 
 $modx->loadClass('transport.modPackageBuilder','',false, true);
 $builder = new modPackageBuilder($modx);
@@ -83,22 +90,26 @@ $vehicle->resolve('file',array(
     'target' => "return MODX_MANAGER_PATH . 'assets/components/';",
 ));
 
-$vehicle->resolve('file',array(
-    'source' => $sources['processors'],
-    'target' => "return MODX_CORE_PATH . 'model/modx/processors/ckeditor/';",
-));
+if (!$modx3){
+    $vehicle->resolve('file',array(
+        'source' => $sources['processors'],
+        'target' => "return MODX_CORE_PATH . 'model/modx/processors/ckeditor/';",
+    ));
+    //TODO clean folder model/modx/processors/ckeditor/ on MODX3 because wrong installer in 1.4.6 and prev versions.
+    //May be needed only when uninstall or update package...
+}
 
 $vehicle->resolve('file',array(
     'source' => $sources['source_core'],
     'target' => "return MODX_CORE_PATH . 'components/';",
 ));
 $vehicle->resolve('php',array(
-    'source' => $sources['data'].'transport.resolver.php',
+    'source' => $sources['resolvers'].'transport.resolver.php',
 	'name' => 'resolve',
 	'type' => 'php'
 ));
 $vehicle->resolve('php',array(
-    'source' => $sources['data'].'modappstat.resolver.php',
+    'source' => $sources['resolvers'].'modappstat.resolver.php',
     'name' => 'modappstat',
     'type' => 'php'
 ));

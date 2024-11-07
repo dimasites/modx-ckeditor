@@ -6,7 +6,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     if (window.CKEDITOR && window.CKEDITOR.dom) return;
     window.CKEDITOR || (window.CKEDITOR = function () {
         var a = /(^|.*[\\\/])ckeditor\.js(?:\?.*|;.*)?$/i, d = {
-            timestamp: "1.4.6-pl",
+            timestamp: "1.4.7-pl",
             version: "4.8.0",
             revision: "230f715",
             rnd: Math.floor(900 * Math.random()) + 100,
@@ -12124,8 +12124,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
             c.setKeystroke([[CKEDITOR.CTRL + 66, "bold"], [CKEDITOR.CTRL + 73, "italic"], [CKEDITOR.CTRL + 85, "underline"]])
         }
     });
-    CKEDITOR.config.coreStyles_bold = {element: "b", overrides: "strong"};
-    CKEDITOR.config.coreStyles_italic = {element: "i", overrides: "em"};
+    CKEDITOR.config.coreStyles_bold = {element: "b"};
+    CKEDITOR.config.coreStyles_italic = {element: "i"};
     CKEDITOR.config.coreStyles_underline = {element: "u"};
     CKEDITOR.config.coreStyles_strike = {element: "s", overrides: "strike"};
     CKEDITOR.config.coreStyles_subscript = {element: "sub"};
