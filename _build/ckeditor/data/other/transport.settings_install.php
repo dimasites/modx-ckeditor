@@ -50,7 +50,7 @@ $settings['extra_plugins']= $modx->newObject('modSystemSetting');
 $settings['extra_plugins']->fromArray(array(
         'key' => 'ckeditor.extra_plugins',
         'xtype' => 'textfield',
-        'value' => 'html5video',
+        'value' => 'html5video,nbsp',
         'namespace' => PKG_NAME_LOWER,
         'area' => 'general'
     ),'',true,true);

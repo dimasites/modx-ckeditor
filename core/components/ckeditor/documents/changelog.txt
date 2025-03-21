@@ -1,5 +1,9 @@
 Changelog for CKEditor integration into MODx Revolution.
 
+CKEditor 1.4.8 (draft 2025.03.21)
+====================================
+- Added nbsp plugin. Now we can put non-breaking space by CTRL+Space keyboard input
+
 CKEditor 1.4.7 (2025.03.21)
 ====================================
 - Old HTML elements replaced to actual by default in new (and only new) pasted or typed content.
