@@ -22,6 +22,7 @@ $sources = array(
     'documents' => $root.'core/components/'.PKG_NAMESPACE.'/documents/',
     'elements' => $root.'core/components/'.PKG_NAMESPACE.'/elements/',
     'source_manager_assets' => $root.'manager/assets/components/'.PKG_NAMESPACE,
+    'source_assets' => $root . 'assets/components/' . PKG_NAME_LOWER,
     'source_core' => $root.'core/components/'.PKG_NAMESPACE,
 );
 unset($root);
@@ -103,16 +104,16 @@ $vehicle->resolve('file',array(
     'source' => $sources['source_core'],
     'target' => "return MODX_CORE_PATH . 'components/';",
 ));
-$vehicle->resolve('php',array(
-    'source' => $sources['resolvers'].'transport.resolver.php',
-	'name' => 'resolve',
-	'type' => 'php'
-));
-$vehicle->resolve('php',array(
-    'source' => $sources['resolvers'].'modappstat.resolver.php',
-    'name' => 'modappstat',
-    'type' => 'php'
-));
+
+/** @var array $BUILD_RESOLVERS */
+foreach ($BUILD_RESOLVERS as $resolver) {
+    if ($vehicle->resolve('php', array('source' => $sources['resolvers'] . $resolver . '.resolver' . '.php'))) {
+        $modx->log(modX::LOG_LEVEL_INFO, 'Added resolver "' . $resolver . '" ');
+    } else {
+        $modx->log(modX::LOG_LEVEL_INFO, 'Could not add resolver "' . $resolver . '" ');
+    }
+}
+
 $builder->putVehicle($vehicle);
 
 /* load system settings */
